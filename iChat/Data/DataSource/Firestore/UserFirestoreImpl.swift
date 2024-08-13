@@ -12,7 +12,7 @@ import Combine
 
 struct UserFirestoreImpl: UserRepository {
 
-    private let db = Firestore.firestore()
+    private let firestore = Firestore.firestore()
 
     func creteUser(email: String, password: String) async throws -> String {
         return try await Auth.auth().createUser(withEmail: email, password: password).user.uid
@@ -23,10 +23,10 @@ struct UserFirestoreImpl: UserRepository {
                         displayName: displayName,
                         email: email)
 
-        let usersRef = db.users.document(user.uid)
+        let usersRef = firestore.users.document(user.uid)
         try await usersRef.setData(from: user).value
 
-        let ref = db.userChats.document(user.uid)
+        let ref = firestore.userChats.document(user.uid)
         let dataUserChats = UserChats(chats: [])
 
         try await ref.setData(from: dataUserChats, encoder: Firestore.Encoder()).value
@@ -37,11 +37,11 @@ struct UserFirestoreImpl: UserRepository {
     }
 
     func getUser(uid: String) async throws -> User {
-        try await db.collection("users").document(uid).getDocument(as: User.self)
+        try await firestore.collection("users").document(uid).getDocument(as: User.self)
     }
 
     func searchUser(with email: String, or displayName: String) async throws -> [User] {
-        let query = db.collection("users").whereFilter(Filter.orFilter([
+        let query = firestore.collection("users").whereFilter(Filter.orFilter([
             Filter.whereField("email", isEqualTo: email),
             Filter.whereField("displayName", isEqualTo: displayName)
         ]))
@@ -50,7 +50,7 @@ struct UserFirestoreImpl: UserRepository {
     }
 
     func getContacts(uid: String) -> AnyPublisher<[UserChat], Error> {
-        db
+        firestore
             .collection("userChats")
             .document(uid)
             .snapshotPublisher()

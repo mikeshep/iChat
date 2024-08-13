@@ -31,7 +31,9 @@ struct SignupView: View {
 
     var actions: some View {
         VStack {
-            Label("Mantener sesión", systemImage: viewModel.keepMeSignedIn ? ImageName.checkMarkFilled.rawValue : ImageName.checkmark.rawValue)
+            Label("Mantener sesión",
+                  systemImage: viewModel.keepMeSignedIn ?
+                  ImageName.checkMarkFilled.rawValue : ImageName.checkmark.rawValue)
                 .contentTransition(.symbolEffect(.replace))
                 .foregroundColor(viewModel.keepMeSignedIn ? .darkGreen : .gray)
                 .padding(.top)

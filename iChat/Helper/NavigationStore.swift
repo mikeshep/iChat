@@ -21,8 +21,8 @@ enum NavigationDestination: Hashable {
             SignupView()
         case .home:
             HomeView()
-        case let .chat(contact: UserUid):
-            ChatView(contact: UserUid)
+        case let .chat(contact):
+            ChatView(contact: contact)
         }
     }
 

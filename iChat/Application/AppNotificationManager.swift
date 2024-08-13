@@ -70,9 +70,9 @@ extension AppNotificationManager: UNUserNotificationCenterDelegate {
         }
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        UIApplication.shared.applicationIconBadgeNumber -= 1
-
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         didReceiveRemoteNotification(userInfo)
         completionHandler()

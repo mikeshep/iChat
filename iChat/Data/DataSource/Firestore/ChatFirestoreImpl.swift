@@ -11,7 +11,7 @@ import Combine
 
 struct ChatFirestoreImpl: ChatRepository {
 
-    private let db = Firestore.firestore()
+    private let firestore = Firestore.firestore()
 
     func sendMessage(text: String, for chatId: String, userUid: String) async throws {
         let fields: [AnyHashable: Any] = [
@@ -26,11 +26,11 @@ struct ChatFirestoreImpl: ChatRepository {
             )
         ]
 
-        try await db.collection("chats").document(chatId).updateData(fields)
+        try await firestore.collection("chats").document(chatId).updateData(fields)
     }
 
     func getChatListener(for chatId: String) -> AnyPublisher<[ChatMessage], Error> {
-        return db
+        return firestore
             .collection("chats")
             .document(chatId)
             .snapshotPublisher(includeMetadataChanges: true)
@@ -41,8 +41,8 @@ struct ChatFirestoreImpl: ChatRepository {
     }
 
     func setupChat(userUid: String, contactUid: String) async throws -> String {
-        let chatsRef = db.collection("chats")
-        let userChastRef = db.collection("userChats")
+        let chatsRef = firestore.collection("chats")
+        let userChastRef = firestore.collection("userChats")
 
         let doc = try await userChastRef.document(userUid).getDocument()
         let userChats = try doc.data(as: UserChats.self)

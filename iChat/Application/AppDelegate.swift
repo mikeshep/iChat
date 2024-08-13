@@ -63,7 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             completionHandler(.noData)
             return
         }
-        UIApplication.shared.applicationIconBadgeNumber += 1
         notificationManager.didReceiveRemoteNotification(
             userInfo,
             fetchCompletionHandler: completionHandler

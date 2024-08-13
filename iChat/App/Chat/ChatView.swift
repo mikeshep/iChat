@@ -85,19 +85,22 @@ struct ChatView: View {
         HStack {
             TextField("Escribe tu mensaje", text: $messageText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-            Button(action: {
-                let messageText = self.messageText
-                Task {
-                    await viewModel.sendMessage(contact: contact, text: messageText, user: user)
-                }
-                self.messageText = ""
-            }) {
+
+            let sendText: () -> some View = {
                 Text("Eviar")
                     .padding()
                     .background(Color.blue)
                     .cornerRadius(8)
                     .foregroundColor(.white)
             }
+
+            let sendAction: () -> Void = {
+                let messageText = self.messageText
+                Task {
+                    await viewModel.sendMessage(contact: contact, text: messageText, user: user)
+                }
+            }
+            Button(action: sendAction, label: sendText)
         }
         .frame(height: 100)
         .frame(maxWidth: .infinity)

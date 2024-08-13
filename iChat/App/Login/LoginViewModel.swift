@@ -26,10 +26,10 @@ final class LoginViewModel: ObservableObject {
     func login(user: UserInfo) async {
         do {
             let result = try await userUseCase.login(email: email, password: password)
-            let u = try await userUseCase.getUser(uid: result)
+            let currentUser = try await userUseCase.getUser(uid: result)
 
-            user.uid = u.uid
-            user.displayName = u.displayName
+            user.uid = currentUser.uid
+            user.displayName = currentUser.displayName
             self.isAuthenticated = true
         } catch {
             self.error = error.localizedDescription
