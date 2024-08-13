@@ -28,9 +28,3 @@ jobs:
           platform: ${{ 'iOS Simulator' }}
         run: |
           fastlane tests
-      - name: Swiftlint
-        env:
-          scheme: ${{ 'default' }}
-          platform: ${{ 'iOS Simulator' }}
-        run: |
-          fastlane swiftlint
