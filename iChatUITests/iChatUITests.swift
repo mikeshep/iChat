@@ -2,7 +2,7 @@
 //  iChatUITests.swift
 //  iChatUITests
 //
-//  Created by Miguel Cuponerapp on 08/08/24.
+//  Created by Miguel Olmedo on 08/08/24.
 //
 
 import XCTest
