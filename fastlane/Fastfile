@@ -1,0 +1,36 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Test"
+  lane :tests do
+    run_tests(scheme: "iChat")
+  end
+
+  lane :beta do
+    build_app(scheme: "iChat")
+  end
+  
+  lane :swiftlint do
+    swiftlint(
+      mode: :lint,
+      config_file: "../.swiftlint.yml",     # The path of the configuration file (optional)
+      raise_if_swiftlint_error: true,      # Allow fastlane to raise an error if swiftlint fails
+      ignore_exit_status: true    # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
+    )
+  end
+end
